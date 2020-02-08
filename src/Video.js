@@ -220,47 +220,6 @@ export default class Video extends Component {
               />
             }
           </div>
-
-          { this.video && this.state.setVideo && this.thing &&
-            <>
-              <div className="video-controls">
-                { !this.state.isVideoPlaying ?
-                  <div className="button" onClick={this.playVideo}>Play</div> :
-                  <div className="button" onClick={this.pauseVideo}>Pause</div>
-                }
-                { this.state.isFullScreen ? 
-                  <div className="button" onClick={this.closeFullscreen}>Close-Full-Screen</div> :
-                  <div className="button" onClick={this.goFullScreen}>Full-Screen</div>
-                }
-                <div className="button" onClick={this.toggleMute}>{this.state.isMuted ? 'Unnmute' : 'Mute'}</div>
-                <div>
-                  {/* <div>Has Cap Level: {this.state.hasCapLevel ? 'YES' : 'NO'}</div>
-                  <div>Available Levels: {this.state.hls && this.state.hls.levels ? `${this.state.hls.levels.length} indexed` : ''}</div>
-                  <div>Current level: {this.state.hls && this.state.hls.currentLevel ? this.state.hls.currentLevel : ''}</div>
-                  <div>Auto level caping: {this.state.hls && this.state.hls.autoLevelCapping ? this.state.hls.autoLevelCapping : ''}</div>
-                  <div>Resolution: {this.state.hls && this.state.hls.levels && this.state.hls.levels[this.state.hls.currentLevel] && this.state.hls.levels[this.state.hls.currentLevel].attrs.RESOLUTION ? this.state.hls.levels[this.state.hls.currentLevel].attrs.RESOLUTION : ''}</div>
-                  <div>URL kbit: {this.state.hls && this.state.hls.levels && this.state.hls.levels[this.state.hls.currentLevel] ? this.state.hls.levels[this.state.hls.currentLevel].url[0].split('/')[this.state.hls.levels[this.state.hls.currentLevel].url[0].split('/').length - 1].split('.')[0] : ''}</div> */}
-                </div>
-              </div>
-              <div className="quality level controler">
-                <div>SET RESOLUTION</div>
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                  {
-                    this.state.hls && 
-                    this.state.hls.levels && 
-                    this.state.hls.levels.map((level, i) => 
-                      <div 
-                        key={i}
-                        onClick={() => this.setLevel(i)} 
-                        style={{padding: '10px', margin: '5px', background: this.state.hls.currentLevel === i ? 'red' : 'green', borderRadius: '3px', cursor: 'pointer'}}>
-                          {level.height}
-                      </div>
-                    )
-                  }
-                </div>
-              </div>
-            </>
-          }
         </div>
       </>
     );
