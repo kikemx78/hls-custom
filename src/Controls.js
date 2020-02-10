@@ -82,11 +82,11 @@ class Controls extends Component {
           
               { 
                 controlsRight.map((button, i) =>
-                <>
+                <div  key={i} >
                   {
                     button.type === settingIcon && 
                     this.state.showQualityController &&
-                      <QualityController 
+                      <QualityController
                         levels={this.props.levels}
                         setLevel={this.props.setLevel}
                         currentLevel={this.props.currentLevel}
@@ -96,7 +96,6 @@ class Controls extends Component {
                   <div className="animate-wrapper" style={{cursor: 'pointer'}}>
                     <div className="tooltip-wrapper">
                         <button 
-                          key={i} 
                           className="button-control"
                           onClick={button.action}
                         >
@@ -114,7 +113,7 @@ class Controls extends Component {
                         </button>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )
               }
           </div>
