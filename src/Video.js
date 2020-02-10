@@ -28,14 +28,11 @@ export default class Video extends Component {
     this.resetVideoUrl = this.resetVideoUrl.bind(this);
     this.updateHlsObject = this.updateHlsObject.bind(this);
     this.closeFullscreen = this.closeFullscreen.bind(this);
-    this.fullScreenChange = this.fullScreenChange.bind(this);
     
   }
 
   componentDidMount() {
     this.forceUpdate();
-
-    window.addEventListener('fullscreenchange', this.fullScreenChange, false);
   }
 
   updateHlsObject(hls_) {
@@ -145,10 +142,6 @@ export default class Video extends Component {
 
   componentDidUpdate() {
     // console.log('update video component');
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('fullscreenchange', this.fullScreenChange, false);
   }
 
   render() {
