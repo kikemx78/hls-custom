@@ -18,7 +18,22 @@ class Controls extends Component {
       showQualityController: false
     };
 
+    this.videoCurrentTime = this.videoCurrentTime.bind(this);
     this.toggleQualityController = this.toggleQualityController.bind(this);
+  }
+
+  videoCurrentTime(d) {
+
+    d = Number(d);
+    const h = Math.floor(d / 3600);
+    const m = Math.floor(d % 3600 / 60);
+    const s = Math.floor(d % 3600 % 60);
+
+    const hDisplay = h > 0 ? h <= 9 ? "0" + h + (":") : h + (":") : "00:";
+    const mDisplay = m > 0 ? m <= 9 ? "0" + m + (":") : m + (":") : "00:";
+    const sDisplay = s > 0 ? s <= 9 ? "0" + s + ("") : s + ("") :  "00";
+    return hDisplay + mDisplay + sDisplay; 
+  
   }
 
   toggleQualityController() {
@@ -75,7 +90,7 @@ class Controls extends Component {
                   </button>
                 )
               }
-
+              <div className="duration" style={{color: 'white', padding: '8px', fontSize: '13px', fontWeight: 'bold', fontFamily: 'monospace'}}>{this.videoCurrentTime(this.props.currentTime)}</div>
             </div>
           </div>
           <div className="player-controls-right">

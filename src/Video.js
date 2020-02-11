@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import HLSSource from './HLSSource';
 import Controls from './Controls';
+import { playIcon } from './Base64Icons';
 
 export default class Video extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ export default class Video extends Component {
       setVideo: false,
       hasCapLevel: false,
       isFullScreen: false,
-      isVideoPlaying: false
+      isVideoPlaying: false,
+      hasBigPlayButton: true
     };
 
     this.setLevel = this.setLevel.bind(this);
@@ -25,6 +27,7 @@ export default class Video extends Component {
     this.setUrlValue = this.setUrlValue.bind(this);
     this.hasCapLevel = this.hasCapLevel.bind(this);
     this.goFullScreen = this.goFullScreen.bind(this);
+    this.handleBigPlay = this.handleBigPlay.bind(this);
     this.resetVideoUrl = this.resetVideoUrl.bind(this);
     this.updateHlsObject = this.updateHlsObject.bind(this);
     this.closeFullscreen = this.closeFullscreen.bind(this);
@@ -78,6 +81,7 @@ export default class Video extends Component {
     console.log('pause video');
     this.video.pause();
     this.setState({ isVideoPlaying: false });
+    this.setState({ hasBigPlayButton: true });
   }
 
   stopVideo() {
@@ -107,6 +111,14 @@ export default class Video extends Component {
     
   }
 
+  handleBigPlay() {
+    console.log('handle big play');
+    if (!this.video) return;
+    console.log('handle big play');
+    this.setState({ hasBigPlayButton: false });
+    this.playVideo();
+  }
+
   closeFullscreen() {
     
     if (!this.video) return;
@@ -131,6 +143,7 @@ export default class Video extends Component {
     this.setState({ setVideo: false });
     this.setState({ hasCapLevel: false });
     this.setState({ isFullScreen: false });
+    this.setState({ hasBigPlayButton: true});
     this.setState({ isVideoPlaying: false });
   
   }
@@ -177,6 +190,16 @@ export default class Video extends Component {
         </div>
 
         <div ref={c => { this.container = c; }} className="container container-16-9">
+          { (this.state.hasBigPlayButton && this.state.setVideo) &&
+            <div 
+              onClick={this.handleBigPlay}
+              style={{ cursor: 'pointer', position: 'absolute', width: '100%', height: '100%', top: '0px', background: 'rgba(255,255,255,0.33)', zIndex: '99999999999' }}>
+              <img 
+                alt="play" 
+                style={{width: '20%', textAlign: 'center', transform: 'translate(0, 80%)' }} 
+                src={`data:image/svg+xml;base64, ${playIcon} `} />
+            </div>
+          }
           <video
             id={'video-id'}
             src={this.state.videoSrc}
@@ -196,7 +219,7 @@ export default class Video extends Component {
           </video>
           <div className="controllers-container">
             { 
-              this.video && this.state.setVideo &&
+              (this.video && this.state.setVideo && !this.state.hasBigPlayButton) &&
               <Controls
                 setLevel={this.setLevel}
                 handlePlay={this.playVideo}
@@ -204,6 +227,7 @@ export default class Video extends Component {
                 handlePause={this.pauseVideo}
                 handleToggleMute={this.toggleMute}
                 handleFullScreen={this.goFullScreen}
+                currentTime={this.video.currentTime}
                 isFullScreen={this.state.isFullScreen}
                 isVideoPlaying={this.state.isVideoPlaying}
                 handleExitFullScreen={this.closeFullscreen}

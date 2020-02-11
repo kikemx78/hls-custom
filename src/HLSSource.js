@@ -26,7 +26,7 @@ export default class HLSSource extends Component {
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
         let updateDataIntervall = setInterval(() => {
           that.props.updateHlsObject(that.hls);
-        }, 2000);
+        }, 1000);
 
         that.setState({ updateDataIntervall });
         // video.play();
