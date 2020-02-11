@@ -1,35 +1,40 @@
 import React, { Component } from 'react';
 import HLSSource from './HLSSource';
 import Controls from './Controls';
-import { playIcon } from './Base64Icons';
+import BigPlay from './BigPlay';
+import VideoModal from './VideoModal';
 
 export default class Video extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
       hls: {},
       isMuted: false,
-      videoSrc: '',
+      videoSrc: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
       setLevel: null,
-      setVideo: false,
+      setVideo: true,
       hasModal: false,
-      hasCapLevel: false,
+      hasCapLevel: true,
+      showControls: false,
       isFullScreen: false,
       isVideoPlaying: false,
       hasBigPlayButton: true
     };
+
+    this.handleShowControls = this.handleShowControls.bind(this);
 
     this.setLevel = this.setLevel.bind(this);
     this.stopVideo = this.stopVideo.bind(this);
     this.playVideo = this.playVideo.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
     this.pauseVideo = this.pauseVideo.bind(this);
-    this.setVideoUrl = this.setVideoUrl.bind(this);
-    this.setUrlValue = this.setUrlValue.bind(this);
-    this.hasCapLevel = this.hasCapLevel.bind(this);
+    // this.setVideoUrl = this.setVideoUrl.bind(this);
+    // this.setUrlValue = this.setUrlValue.bind(this);
+    // this.hasCapLevel = this.hasCapLevel.bind(this);
     this.goFullScreen = this.goFullScreen.bind(this);
     this.handleBigPlay = this.handleBigPlay.bind(this);
-    this.resetVideoUrl = this.resetVideoUrl.bind(this);
+    // this.resetVideoUrl = this.resetVideoUrl.bind(this);
     this.updateHlsObject = this.updateHlsObject.bind(this);
     this.closeFullscreen = this.closeFullscreen.bind(this);
     this.handleToggleModal = this.handleToggleModal.bind(this);
@@ -46,11 +51,14 @@ export default class Video extends Component {
   }
 
   setUrlValue(e) {
+
+    // Not used on prod component ... 
     this.setState({ videoSrc: e.target.value });
   }
   
   setVideoUrl() {
 
+    // Not used on prod component ...
     const { videoSrc } = this.state;
 
     const isInvalid = videoSrc.substring(0, 8) !== 'https://' && 
@@ -66,6 +74,8 @@ export default class Video extends Component {
   }
 
   hasCapLevel(e) {
+
+    // Not used on prod component...
     console.log(e.target.value)
     this.setState({ hasCapLevel: e.target.value === 'yes' });
     console.log(this.state.hasCapLevel, 'hasCapLevl');
@@ -140,6 +150,7 @@ export default class Video extends Component {
 
   resetVideoUrl() {
 
+    // Not used on prod comp...
     this.setState({ videoSrc: '' });
     this.setState({ isMuted: false });
     this.setState({ setVideo: false });
@@ -159,63 +170,37 @@ export default class Video extends Component {
     this.setState({hasModal: !this.state.hasModal});
   }
 
+  handleShowControls(val) {
+
+    this.setState({showControls: val})
+  }
+
   render() {
+
+    const controllersContainerClass = ['controllers-container'];
+
+    if (this.state.showControls) {
+      controllersContainerClass.push('active');
+    }
 
     // console.log(this.state.hasCapLevel, 'state cap level');
     const hlsOptions = {
       capLevelToPlayerSize: this.state.hasCapLevel
     };
-    
+
     return (
       <>
-        <div>
-          <div style={{margin: '50px'}}>
-            <label>Has capLevelToPlayerSize</label>
-            <select onChange={this.hasCapLevel}>
-              <option value="no"></option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Type Video URL</label>
-            <input type="text" onChange={this.setUrlValue} value={this.state.videoSrc} />
-            <button disabled={this.state.videoSrc === ''} onClick={this.setVideoUrl}>Set video url</button>
-            <button onClick={this.resetVideoUrl}>Reset video url</button>
-          </div>
-
-          <div>
-            <p>Sample URL:</p>
-            https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8
-          </div>
-        </div>
-
-        <div ref={c => { this.container = c; }} className="container container-16-9">
+        <div 
+          onMouseEnter={() => this.handleShowControls(true)}
+          onMouseLeave={() => this.handleShowControls(false)}
+          ref={c => { this.container = c; }} 
+          className="container container-16-9">
           { (this.state.hasBigPlayButton && this.state.setVideo) &&
-            <div 
-              onClick={this.handleBigPlay}
-              style={{ cursor: 'pointer', position: 'absolute', width: '100%', height: '100%', top: '0px', background: 'rgba(255,255,255,0.33)', zIndex: '99999999999' }}>
-              <img 
-                alt="play" 
-                style={{width: '20%', textAlign: 'center', transform: 'translate(0, 80%)' }} 
-                src={`data:image/svg+xml;base64, ${playIcon} `} />
-            </div>
+            <BigPlay handleBigPlay={this.handleBigPlay}/>
           }
           {
             this.state.hasModal && this.state.setVideo &&
-            <div 
-              onClick={this.handleToggleModal}
-              style={{ cursor: 'pointer', position: 'absolute', width: '100%', height: '100%', top: '0px', background: 'rgba(255,255,255,0.33)', zIndex: '99999999999' }}>
-                
-              <div style={{transform: 'translate(0, calc(50% - 25px))', height: '100%'}}>
-                <div style={{fontSize: '20px', position: 'relative', top: '-50px'}}>Are you still wathcing our stream ?</div>
-                <div>
-                  <span style={{borderRadius: '5px', fontSize: '20px', padding: '25px', background: 'green', position: 'relative', transform: 'translate(0, 50%)'}}>Yes</span>
-                </div>
-                <div style={{fontSize: '20px', position: 'relative', top: '50px'}}>Otherwise your session will be terminated in x seconds</div>
-              </div>
-            </div>
+            <VideoModal handleToggleModal={this.handleToggleModal} />
           }
           <video
             id={'video-id'}
@@ -234,7 +219,7 @@ export default class Video extends Component {
               />
           }
           </video>
-          <div className="controllers-container">
+          <div className={controllersContainerClass.join(' ')}>
             { 
               (this.video && this.state.setVideo && !this.state.hasBigPlayButton) &&
               <Controls

@@ -7,6 +7,13 @@
   border: 0;
   margin: 0;
   padding: 0;
+  opacity: 0;
+  transition: all 0.25s ease-in;
+}
+
+.controllers-container.active {
+  opacity: 1;
+  transition: all 0.25s ease-in;
 }
 
 .player-controls {
