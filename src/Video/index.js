@@ -3,6 +3,7 @@ import HLSSource from './HLSSource';
 import Controls from './Controls';
 import BigPlay from './BigPlay';
 import VideoModal from './VideoModal';
+import './Video.css';
 
 export default class Video extends Component {
   
@@ -11,12 +12,11 @@ export default class Video extends Component {
     this.state = {
       hls: {},
       isMuted: false,
-      videoSrc: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
       setLevel: null,
       setVideo: true,
       hasModal: false,
       hasCapLevel: true,
-      showControls: false,
+      showControls: true,
       isFullScreen: false,
       isVideoPlaying: false,
       hasBigPlayButton: true
@@ -171,7 +171,7 @@ export default class Video extends Component {
   }
 
   handleShowControls(val) {
-
+    return;
     this.setState({showControls: val})
   }
 
@@ -187,6 +187,8 @@ export default class Video extends Component {
     const hlsOptions = {
       capLevelToPlayerSize: this.state.hasCapLevel
     };
+
+    const { videoSrc } = this.props;
 
     return (
       <>
@@ -204,7 +206,7 @@ export default class Video extends Component {
           }
           <video
             id={'video-id'}
-            src={this.state.videoSrc}
+            src={videoSrc}
             muted={this.state.isMuted}
             ref={c => { this.video = c; }}
           > 
@@ -212,7 +214,7 @@ export default class Video extends Component {
               <HLSSource
                 video={this.video}
                 hlsOptions={hlsOptions}
-                src={this.state.videoSrc}
+                src={videoSrc}
                 setLevel={this.state.setLevel} 
                 updateHlsObject={this.updateHlsObject}
                 capLevelToPlayerSize={this.state.hasCapLevel} 

@@ -26,7 +26,7 @@ class QualityController extends Component {
         <div className="quality-controller">
           <div className="quality-controller-container">
             <div className="quality-controller-content">
-              <div className="quality-controller-content-box" style={{padding: '1rem', overflow: 'auto', fontFamily: 'monospace', textAlign: 'start'}}>
+              <div className="quality-controller-content-box" style={{padding: '1rem', overflow: 'auto', fontFamily: 'Roboto', textAlign: 'start'}}>
 
                 <div>
                   <div className="quality-controller-content-box-title">

@@ -90,7 +90,7 @@ class Controls extends Component {
                   </button>
                 )
               }
-              <div className="duration" style={{color: 'white', padding: '8px', fontSize: '13px', fontWeight: 'bold', fontFamily: 'monospace'}}>{this.videoCurrentTime(this.props.currentTime)}</div>
+              <div className="duration" style={{color: 'white', padding: '8px', fontSize: '13px', fontWeight: 'bold', fontFamily: 'Roboto'}}>{this.videoCurrentTime(this.props.currentTime)}</div>
             </div>
           </div>
           <div className="player-controls-right">
