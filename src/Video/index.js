@@ -15,7 +15,6 @@ export default class Video extends Component {
       setLevel: null,
       setVideo: true,
       hasModal: false,
-      hasCapLevel: true,
       showControls: true,
       isFullScreen: false,
       isVideoPlaying: false,
@@ -29,12 +28,8 @@ export default class Video extends Component {
     this.playVideo = this.playVideo.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
     this.pauseVideo = this.pauseVideo.bind(this);
-    // this.setVideoUrl = this.setVideoUrl.bind(this);
-    // this.setUrlValue = this.setUrlValue.bind(this);
-    // this.hasCapLevel = this.hasCapLevel.bind(this);
     this.goFullScreen = this.goFullScreen.bind(this);
     this.handleBigPlay = this.handleBigPlay.bind(this);
-    // this.resetVideoUrl = this.resetVideoUrl.bind(this);
     this.updateHlsObject = this.updateHlsObject.bind(this);
     this.closeFullscreen = this.closeFullscreen.bind(this);
     this.handleToggleModal = this.handleToggleModal.bind(this);
@@ -49,38 +44,7 @@ export default class Video extends Component {
     this.setState({ hls: hls_ });
     // console.log(this.state.hls);
   }
-
-  setUrlValue(e) {
-
-    // Not used on prod component ... 
-    this.setState({ videoSrc: e.target.value });
-  }
   
-  setVideoUrl() {
-
-    // Not used on prod component ...
-    const { videoSrc } = this.state;
-
-    const isInvalid = videoSrc.substring(0, 8) !== 'https://' && 
-    videoSrc.substring(0, 7) !== 'http://' && 
-    videoSrc.substring(0, 2) !== '//';
-
-    if (isInvalid) {
-      alert('set a vavlid url');
-      return 
-    }
-    
-    this.setState({ setVideo: true });
-  }
-
-  hasCapLevel(e) {
-
-    // Not used on prod component...
-    console.log(e.target.value)
-    this.setState({ hasCapLevel: e.target.value === 'yes' });
-    console.log(this.state.hasCapLevel, 'hasCapLevl');
-  }
-
   playVideo() {
     if (!this.video) return;
     console.log('play video');
@@ -148,19 +112,6 @@ export default class Video extends Component {
     }
   }
 
-  resetVideoUrl() {
-
-    // Not used on prod comp...
-    this.setState({ videoSrc: '' });
-    this.setState({ isMuted: false });
-    this.setState({ setVideo: false });
-    this.setState({ hasCapLevel: false });
-    this.setState({ isFullScreen: false });
-    this.setState({ hasBigPlayButton: true});
-    this.setState({ isVideoPlaying: false });
-  
-  }
-
   setLevel(index) {
     console.log('set to level index ', index);
     this.setState({ setLevel: index });
@@ -171,7 +122,6 @@ export default class Video extends Component {
   }
 
   handleShowControls(val) {
-    return;
     this.setState({showControls: val})
   }
 
@@ -185,7 +135,7 @@ export default class Video extends Component {
 
     // console.log(this.state.hasCapLevel, 'state cap level');
     const hlsOptions = {
-      capLevelToPlayerSize: this.state.hasCapLevel
+      capLevelToPlayerSize: this.props.hasCapLevel
     };
 
     const { videoSrc } = this.props;

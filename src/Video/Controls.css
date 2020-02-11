@@ -194,6 +194,13 @@
 
 .quality-controller-content-box-item-container {
   padding: .5rem;
+  color: #ffff;
+  transition: all 0.25s ease-in;
+}
+
+.quality-controller-content-box-item-container :hover{
+  color: #0088a3;
+  
 }
 
 .quality-controller-content-box-item {
