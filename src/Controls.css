@@ -136,7 +136,7 @@
   margin-right: 50px;
   left: auto;
   right: 0;
-  width: 30rem;
+  width: 15rem;
   bottom: 100%;
   margin-bottom: 8px;
   top: auto;
@@ -155,7 +155,7 @@
 }
 
 .quality-controller-content {
-  max-height: 240px;
+  max-height: 150px;
   flex-direction: column;
   display: flex;
   border: 0;
@@ -231,7 +231,7 @@
   background-color: #0088a3;
   border-radius: 50%;
   height: .8rem;
-  left: .4rem;
+  left: .2rem;
   position: absolute;
   top: 50%;
   transform: translate3d(0,-50%,0);
@@ -244,13 +244,13 @@
   border: 2px solid #fff;
   box-sizing: border-box;
   content: "";
-  height: 1.6rem;
+  height: 1.2rem;
   left: 0;
-  margin-top: -.8rem;
+  margin-top: -.6rem;
   position: absolute;
   top: 50%;
   transition: box-shadow .1s ease-in, background .1s ease-in;
-  width: 1.6rem;
+  width: 1.2rem;
 }
 
 .quality-controller-content-box-item-inner-label::after {
