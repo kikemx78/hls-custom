@@ -8,7 +8,7 @@ export default class Video extends Component {
     this.state = {
       hls: {},
       isMuted: false,
-      videoSrc: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
+      videoSrc: '',
       setLevel: null,
       setVideo: false,
       hasCapLevel: false,
