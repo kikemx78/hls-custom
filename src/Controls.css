@@ -172,6 +172,7 @@
   position: relative;
   font-size: 18px;
   width: 100%;
+  margin-left: 10px;
 }
 
 .quality-controller-content-box-border {
@@ -231,11 +232,11 @@
   background-color: #0088a3;
   border-radius: 50%;
   height: .8rem;
-  left: .2rem;
+  left: 4px;
   position: absolute;
   top: 50%;
   transform: translate3d(0,-50%,0);
-  width: .8rem;
+  width: .7rem;
 }
 
 .quality-controller-content-box-item-inner-label::before {
