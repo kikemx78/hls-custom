@@ -5,6 +5,12 @@ class QualityController extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.triggerOnChange.bind(this);
+  }
+
+  triggerOnChange() {
+    console.log('now');
   }
 
   render() {
@@ -20,7 +26,7 @@ class QualityController extends Component {
         <div className="quality-controller">
           <div className="quality-controller-container">
             <div className="quality-controller-content">
-              <div className="quality-controller-content-box" style={{padding: '1rem', overflow: 'auto'}}>
+              <div className="quality-controller-content-box" style={{padding: '1rem', overflow: 'auto', fontFamily: 'monospace', textAlign: 'start'}}>
 
                 <div>
                   <div className="quality-controller-content-box-title">
@@ -33,13 +39,13 @@ class QualityController extends Component {
 
                     levels &&
                     levels.map((level, i) => 
-                      <div key={i} className="quality-controller-content-box-item-container">
+                      <div key={i} className="quality-controller-content-box-item-container" onClick={() => setLevel(i)}>
                         <div className="quality-controller-content-box-item">
                           <div className="quality-controller-content-box-item-inner">
                             <div className="quality-controller-content-box-item-inner-option">
-                              <input type="radio" checked onChange={() => ''}/>
+                              <input type="radio" checked={currentLevel === i} onChange={() => ''}/>
                               <label className="quality-controller-content-box-item-inner-label">
-                                <div style={{cursor: 'pointer', padding: '10px', border: currentLevel !== i ? '0.5px solid #fff' : '', background: currentLevel === i ? 'green' : '', maxWidth: '50px', margin: 'auto', borderRadius: '3px'}} onClick={() => setLevel(i)}>{level.height}</div>
+                                <div>{level.height}</div>
                               </label>
                             </div>
                             
