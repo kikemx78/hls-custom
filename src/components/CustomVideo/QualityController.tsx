@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
-class QualityController extends Component {
+class QualityController extends React.Component<any, any> {
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
 
@@ -14,31 +14,32 @@ class QualityController extends Component {
   }
 
   render() {
-    const { 
-      levels, 
-      setLevel, 
-      currentLevel,
-      toggleQualityController
-  } = this.props;
+
+    const {
+        levels,
+        setLevel,
+        currentLevel,
+        toggleQualityController
+    } = this.props;
 
     return(
       <div className="quality-controller-outer">
         <div className="quality-controller">
           <div className="quality-controller-container">
             <div className="quality-controller-content">
-              <div className="quality-controller-content-box" style={{padding: '1rem', overflow: 'auto', fontFamily: 'monospace', textAlign: 'start'}}>
+              <div className="quality-controller-content-box" style={{padding: '1rem', overflow: 'auto', fontFamily: 'Roboto', textAlign: 'start'}}>
 
                 <div>
                   <div className="quality-controller-content-box-title">
                     Video Quality <span onClick={() => toggleQualityController()}>[x]</span>
                   </div>
                   <div className="quality-controller-content-box-border"></div>
-                  
+
                   {/* item container */}
                   {
 
                     levels &&
-                    levels.map((level, i) => 
+                    levels.map((level: any, i: any) =>
                       <div key={i} className="quality-controller-content-box-item-container" onClick={() => setLevel(i)}>
                         <div className="quality-controller-content-box-item">
                           <div className="quality-controller-content-box-item-inner">
@@ -48,7 +49,7 @@ class QualityController extends Component {
                                 <div>{level.height}</div>
                               </label>
                             </div>
-                            
+
                           </div>
                         </div>
                       </div>
@@ -57,7 +58,7 @@ class QualityController extends Component {
                   {/* item container */}
 
                 </div>
-                
+
               </div>
             </div>
           </div>

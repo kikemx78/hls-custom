@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
-import Hls from 'hls.js';
+import * as React from 'react';
+import * as Hls_ from 'hls.js';
 
-export default class HLSSource extends Component {
-  constructor(props, context) {
-    super(props, context);
+let hls_: any = Hls_;
+const Hls: any = require('hls.js');
+
+class HLSSource extends React.Component<any, any> {
+
+  public hls: any = '';
+
+  constructor(props: any) {
+    super(props);
 
     this.hls = new Hls(this.props.hlsOptions);
     this.state = {
@@ -15,13 +21,13 @@ export default class HLSSource extends Component {
     // `src` is the property get from this component
     // `video` is the property insert from `Video` component
     // `video` is the html5 video element
+    let that = this;
     const { src, video } = this.props;
     // load hls video source base on hls.js
     if (Hls.isSupported()) {
       this.hls.loadSource(src);
       this.hls.attachMedia(video);
 
-      let that = this;
 
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
         let updateDataIntervall = setInterval(() => {
@@ -33,15 +39,15 @@ export default class HLSSource extends Component {
       });
     }
 
-    this.hls.on(Hls.Events.ERROR, function (event, data) {
+    this.hls.on(Hls.Events.ERROR, function (event: any, data: any) {
 
       if (data.fatal) {
-        switch(data.type) {
+        switch (data.type) {
         case Hls.ErrorTypes.NETWORK_ERROR:
-          this.hls.startLoad();
+          that.hls.startLoad();
           break;
         case Hls.ErrorTypes.MEDIA_ERROR:
-          this.hls.recoverMediaError();
+          that.hls.recoverMediaError();
           break;
         case Hls.ErrorTypes.OTHER_ERROR:
           console.log('Other error');
@@ -64,19 +70,12 @@ export default class HLSSource extends Component {
     }
   }
 
-  componentDidUpdate() {
-    // console.log('update component');
-    console.log(this.hls);
-    console.log(this.hls && this.hls.currentLevel, 'currentLevel');
-    
-  }
+  componentWillReceiveProps(newProps: any) {
 
-  componentWillReceiveProps(newProps) {
-  
     if (newProps.capLevelToPlayerSize !== this.props.capLevelToPlayerSize) {
       console.log('update cap level to', newProps.capLevelToPlayerSize);
       this.hls.capLevelToPlayerSize = newProps.capLevelToPlayerSize;
-    } 
+    }
 
     if (newProps.setLevel !== this.props.setLevel) {
       console.log('set new level on hls', newProps.setLevel);
@@ -96,4 +95,7 @@ export default class HLSSource extends Component {
       />
     );
   }
+
 }
+
+export default HLSSource;
