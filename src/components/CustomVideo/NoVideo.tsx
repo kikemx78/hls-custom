@@ -35,7 +35,6 @@ const NoVideo = (props: any) => {
 
   const { addBalanceText, videoLegacyText, isModernBrowser }: any = props;
   // console.log(props);
-  
   return (
     <div style={addFundsStyle}>
       { !isModernBrowser ? videoLegacyText : addBalanceText }

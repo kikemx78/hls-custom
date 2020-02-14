@@ -228,7 +228,7 @@ class Video extends React.Component<any, any> {
           console.log('idle stream cointer', that.state.idleStreamCounter);
           // Kill Session on AFK
           if (that.state.idleStreamCounter <= 0) {
-
+            this.closeFullscreen();
             this.props.onIdleCounterFinished();
             // that.props.wsm.socket.disconnect();
             // that.props.dispatch(killedSession(true));
@@ -296,9 +296,9 @@ class Video extends React.Component<any, any> {
     if (!isModernBrowser || Number(balance) <= 0) {
       return (
         <NoVideo
-					balance={Number(balance)}
-					addBalanceText='AddBalance'
-					videoLegacyText='Video Legacy Text'
+          balance={Number(balance)}
+          addBalanceText="AddBalance"
+          videoLegacyText="Video Legacy Text"
           isModernBrowser={ isModernBrowser }
         />
       );

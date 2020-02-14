@@ -28,7 +28,6 @@ class HLSSource extends React.Component<any, any> {
       this.hls.loadSource(src);
       this.hls.attachMedia(video);
 
-
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
         let updateDataIntervall = setInterval(() => {
           that.props.updateHlsObject(that.hls);
