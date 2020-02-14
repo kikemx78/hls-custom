@@ -27,13 +27,14 @@ const isModernBrowser = true;
 const userAgent: any = {
   ie: isIE,
   edge: isEdge,
+  mobile: isMobile,
+  tablet: isTablet,
   safari: isSafari,
   chrome: isChrome,
   android: isAndroid,
-  safari_mobile: isMobileSafari,
   browser: isBrowser,
-  mobile: isMobile,
-  tablet: isTablet
+  safari_mobile: isMobileSafari
+  
 };
 const balance = 100;
 
@@ -50,6 +51,7 @@ class App extends React.Component<any, any> {
     this.hasCapLevel = this.hasCapLevel.bind(this);
     this.setUrlValue = this.setUrlValue.bind(this);
     this.resetVideoUrl = this.resetVideoUrl.bind(this);
+    this.killSessionOnIdle = this.killSessionOnIdle.bind(this);
   }
 
   setVideoUrl() {
@@ -91,6 +93,10 @@ class App extends React.Component<any, any> {
     console.log(this.state.hasCapLevel, 'hasCapLevl');
   }
 
+  killSessionOnIdle() {
+    console.log('should kill session on idle...');
+  }
+
   render() {
     console.log(this.state);
 
@@ -114,6 +120,7 @@ class App extends React.Component<any, any> {
             userAgent={userAgent}
             videoSrc={this.state.videoSrc}
             isModernBrowser={isModernBrowser}
+            onIdleCounterFinished={this.killSessionOnIdle}
             videoAfkPopUpInterval={config.videoAfkPopUpInterval}
             videoAfkPopUpEndSessionInterval={config.videoAfkPopUpEndSessionInterval}
           />

@@ -124,12 +124,13 @@ class Video extends React.Component<any, any> {
     console.log('full');
     this.setState({ hasCapLevel: false });
     this.setState({ isFullScreen: true });
+    const hideUI = { navigationUI: 'hide' };
     if (this.container.requestFullscreen) {
-      this.container.requestFullscreen();
+      this.container.requestFullscreen(hideUI);
     } else if (this.container.mozRequestFullScreen) {
-      this.container.mozRequestFullScreen(); // Firefox
+      this.container.mozRequestFullScreen(hideUI); // Firefox
     } else if (this.container.webkitRequestFullscreen) {
-      this.container.webkitRequestFullscreen(); // Chrome and Safari
+      this.container.webkitRequestFullscreen(hideUI); // Chrome and Safari
     }
 
   }
@@ -228,7 +229,7 @@ class Video extends React.Component<any, any> {
           // Kill Session on AFK
           if (that.state.idleStreamCounter <= 0) {
 
-
+            this.props.onIdleCounterFinished();
             // that.props.wsm.socket.disconnect();
             // that.props.dispatch(killedSession(true));
             // that.props.dispatch(redirectToNotLoggedInPage());
@@ -380,16 +381,3 @@ class Video extends React.Component<any, any> {
 }
 
 export default Video;
-
-// export default connect(
-//   (state: any) => {
-//     return {
-//       wsm: state.wsm,
-//       userAgent: state.user && state.user.user_agent,
-//       balance: state.user && state.user.balance_real,
-//       hasNativeFullScreen: state.user.hasNativeFullScreen,
-//       idleOnStream: state.user && state.user.isIdleOnStream,
-//       hasVideoOnFullScreen: state.user.hasVideoOnFullScreen,
-//       isModernBrowser: state.user && state.user.isModernBrowser
-//     };
-//   })(Video);
