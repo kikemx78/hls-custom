@@ -94,6 +94,9 @@ class Video extends React.Component<any, any> {
   playVideo() {
     if (!this.video) return;
     console.log('play video');
+    if (this.state.hasBigPlayButton) {
+      this.setState({ hasBigPlayButton: false });
+    }
     this.video.play();
     this.setState({ isVideoPlaying: true });
     this.setState({ isVideoPaused: false });
@@ -120,10 +123,16 @@ class Video extends React.Component<any, any> {
   }
 
   goFullScreen() {
+
     if (!this.video) return;
-    console.log('full');
+    if (this.props.userAgent['safari_mobile']) {
+      this.video.webkitEnterFullscreen();
+      return;
+    }
+   
     this.setState({ hasCapLevel: false });
     this.setState({ isFullScreen: true });
+
     const hideUI = { navigationUI: 'hide' };
     if (this.container.requestFullscreen) {
       this.container.requestFullscreen(hideUI);
@@ -336,8 +345,9 @@ class Video extends React.Component<any, any> {
             />
           }
            <video
-            id={'video-id'}
+            playsInline
             src={videoSrc}
+            id={'video-id'}
             muted={this.state.isMuted}
             ref={c => { this.video = c; }}
           >
@@ -346,7 +356,9 @@ class Video extends React.Component<any, any> {
                 src={videoSrc}
                 video={this.video}
                 hlsOptions={hlsOptions}
+                playVideo={this.playVideo}
                 setLevel={this.state.setLevel}
+                userAgent={this.props.userAgent}
                 updateHlsObject={this.updateHlsObject}
                 capLevelToPlayerSize={this.state.hasCapLevel}
               />

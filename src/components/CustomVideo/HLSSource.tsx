@@ -32,10 +32,15 @@ class HLSSource extends React.Component<any, any> {
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
         let updateDataIntervall = setInterval(() => {
           that.props.updateHlsObject(that.hls);
+          console.log(that.hls);
         }, 1000);
 
         that.setState({ updateDataIntervall });
-        // video.play();
+        if (!this.props.userAgent['mobile']) {
+          console.log('play video');
+          this.props.playVideo();
+        }
+        // 
       });
     }
 
