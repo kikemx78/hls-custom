@@ -94,12 +94,10 @@ class Video extends React.Component<any, any> {
   playVideo() {
     if (!this.video) return;
     console.log('play video');
-    if (this.state.hasBigPlayButton) {
-      this.setState({ hasBigPlayButton: false });
-    }
     this.video.play();
     this.setState({ isVideoPlaying: true });
     this.setState({ isVideoPaused: false });
+    this.setState({ hasBigPlayButton: false });
     console.log('start interval');
     this.watchingStreamInterval();
   }
@@ -346,10 +344,12 @@ class Video extends React.Component<any, any> {
           }
            <video
             playsInline
+            
             src={videoSrc}
             id={'video-id'}
             muted={this.state.isMuted}
             ref={c => { this.video = c; }}
+            autoPlay={!this.props.userAgent['mobile']}
           >
           { this.video && videoSrc &&
               <HLSSource
