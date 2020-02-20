@@ -33,7 +33,7 @@ const userAgent: any = {
   chrome: isChrome,
   android: isAndroid,
   browser: isBrowser,
-  safari_mobile: isMobileSafari
+  mobile_safari: isMobileSafari
   
 };
 const balance = 100;

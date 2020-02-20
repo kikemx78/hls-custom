@@ -123,8 +123,10 @@ class Video extends React.Component<any, any> {
   goFullScreen() {
 
     if (!this.video) return;
-    if (this.props.userAgent['safari_mobile']) {
+    if (this.props.userAgent['mobile_safari']) {
+      console.log('iPhone full screen');
       this.video.webkitEnterFullscreen();
+      this.setState({ hasBigPlayButton: true });
       return;
     }
    
