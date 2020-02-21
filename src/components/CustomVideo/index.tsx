@@ -371,8 +371,8 @@ class Video extends React.Component<any, any> {
 
     }
 
-    const hasPreloader = true;
-    // const hasPreloader = !this.video || !this.state.isPlaying || this.state.isWaiting || this.video.readyState !== 4 || this.video.seeking || (this.state.hls && this.state.hls.currentLevel === - 1);
+    // const hasPreloader = true;
+    const hasPreloader = !this.video || !this.state.isPlaying || this.state.isWaiting || this.video.readyState !== 4 || this.video.seeking || (this.state.hls && this.state.hls.currentLevel === - 1);
 
     return (
       <>
