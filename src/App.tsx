@@ -19,7 +19,7 @@ import './App.css';
 import './Video.css';
 
 const config = {
-  videoAfkPopUpInterval: 10000,
+  videoAfkPopUpInterval: 60000000,
 	videoAfkPopUpEndSessionInterval: 60000
 };
 

@@ -19,7 +19,7 @@ class Video extends React.Component<any, any> {
     super(props);
 
     this.state = {
-
+      hls: {},
       isWaiting: false,
       isPlaying: false,
 
@@ -37,10 +37,14 @@ class Video extends React.Component<any, any> {
       showQualityController: false,
       mockInteractionInterval: null,
 
+      currentLevelInterval: 0,
+
       hideMobileControlsCounter: 5,
       hideMobileControlsInterval: null,
       idleStreamCounter: this.props.videoAfkPopUpEndSessionInterval / 1000
     };
+
+    this.startRecovery = this.startRecovery.bind(this);
 
     this.handleOnPlaying = this.handleOnPlaying.bind(this);
     this.handleOnWaiting = this.handleOnWaiting.bind(this);
@@ -102,7 +106,36 @@ class Video extends React.Component<any, any> {
 
   updateHlsObject(hls_: any) {
     this.setState({ hls: hls_ });
+    console.log(hls_.currentLevel, 'currentLevel...');
+    console.log(this.state.currentLevelInterval, 'currentLevelInterval...');
+    if (hls_.currentLevel >= 0) {
+      this.setState({ currentLevelInterval: 0 });
+    }
+    if (hls_.currentLevel === -1 && this.state.currentLevelInterval === 0) {
+      console.log('start interval....');
+      this.setState({ currentLevelInterval: this.state.currentLevelInterval + 1 });
+    } else if (hls_.currentLevel === -1 && this.state.currentLevelInterval >= 1) {
+      this.setState({ currentLevelInterval: this.state.currentLevelInterval + 1 });
+      console.log('interval should be running...', this.state.currentLevelInterval);
+    }
+
+    if (this.state.currentLevelInterval >= 7) {
+      console.log('restart recovery process...');
+      this.startRecovery();
+      this.setState({ currentLevelInterval: 0 });
+
+    }
     // console.log(this.state.hls);
+  }
+
+  startRecovery() {
+    if (!this.video) return;
+    console.log('pause video');
+    this.video.pause();
+    this.setState({ isVideoPaused: true });
+    this.setState({ isVideoPlaying: false });
+    let that = this;
+    setTimeout(() => that.playVideo(), 1000);
   }
 
   playVideo() {
@@ -119,7 +152,6 @@ class Video extends React.Component<any, any> {
 
   pauseVideo() {
     console.log('hey');
-    this.setState({ hasBigPlayButton: true });
     if (!this.video) return;
     console.log('pause video');
     this.video.pause();
@@ -365,10 +397,10 @@ class Video extends React.Component<any, any> {
 
     const { videoSrc } = this.props;
 
-    if (this.video) {
-      console.log(this.getProperties());
-      console.log(this.video);
-
+    if (this.video && this.state.hls) {
+      // console.log(this.getProperties());
+      // console.log(this.video);
+      // pconsole.log(this.state.hls.currentLevel, 'currentLevel');
     }
 
     // const hasPreloader = true;
