@@ -1,9 +1,13 @@
 import * as React from 'react';
+import Spinner from './Spinner';
 import BigPlay from './BigPlay';
 import NoVideo from './NoVideo';
 import Controls from './Controls';
 import HLSSource from './HLSSource';
 import VideoModal from './VideoModal';
+
+
+import { mediaProperties } from './helpers';
 
 class Video extends React.Component<any, any> {
 
@@ -15,6 +19,10 @@ class Video extends React.Component<any, any> {
     super(props);
 
     this.state = {
+
+      isWaiting: false,
+      isPlaying: false,
+
       isMuted: false,
       setLevel: null,
       hasModal: false,
@@ -33,6 +41,11 @@ class Video extends React.Component<any, any> {
       hideMobileControlsInterval: null,
       idleStreamCounter: this.props.videoAfkPopUpEndSessionInterval / 1000
     };
+
+    this.handleOnPlaying = this.handleOnPlaying.bind(this);
+    this.handleOnWaiting = this.handleOnWaiting.bind(this);
+
+    this.getProperties = this.getProperties.bind(this);
 
     this.setLevel = this.setLevel.bind(this);
     this.playVideo = this.playVideo.bind(this);
@@ -56,10 +69,11 @@ class Video extends React.Component<any, any> {
   componentDidMount() {
     window.addEventListener('click', this.userInteraction);
 
-    console.log(this.props.userAgent);
+    // console.log(this.props.userAgent);
     if (this.props.userAgent && this.props.userAgent['android']) {
       this.setState({ showControls: false });
     }
+
   }
 
   componentWillUnmount() {
@@ -94,6 +108,7 @@ class Video extends React.Component<any, any> {
   playVideo() {
     if (!this.video) return;
     console.log('play video');
+
     this.video.play();
     this.setState({ isVideoPlaying: true });
     this.setState({ isVideoPaused: false });
@@ -103,6 +118,8 @@ class Video extends React.Component<any, any> {
   }
 
   pauseVideo() {
+    console.log('hey');
+    this.setState({ hasBigPlayButton: true });
     if (!this.video) return;
     console.log('pause video');
     this.video.pause();
@@ -121,18 +138,17 @@ class Video extends React.Component<any, any> {
   }
 
   goFullScreen() {
-
     if (!this.video) return;
+    console.log(this.props.userAgent);
     if (this.props.userAgent['mobile_safari']) {
       console.log('iPhone full screen');
       this.video.webkitEnterFullscreen();
       this.setState({ hasBigPlayButton: true });
       return;
     }
-   
+    console.log('full');
     this.setState({ hasCapLevel: false });
     this.setState({ isFullScreen: true });
-
     const hideUI = { navigationUI: 'hide' };
     if (this.container.requestFullscreen) {
       this.container.requestFullscreen(hideUI);
@@ -237,7 +253,7 @@ class Video extends React.Component<any, any> {
           console.log('idle stream cointer', that.state.idleStreamCounter);
           // Kill Session on AFK
           if (that.state.idleStreamCounter <= 0) {
-
+            this.closeFullscreen();
             this.props.onIdleCounterFinished();
             // that.props.wsm.socket.disconnect();
             // that.props.dispatch(killedSession(true));
@@ -249,8 +265,8 @@ class Video extends React.Component<any, any> {
         that.setState({ idleStreamCountdown });
 
       }
-      console.log(that.state.streamDuration, 'stream duration');
-      console.log(this.props.videoAfkPopUpInterval, 'afkPopUpInterval');
+      // console.log(that.state.streamDuration, 'stream duration');
+      // console.log(this.props.videoAfkPopUpInterval, 'afkPopUpInterval');
     }, 1000);
 
     this.setState({  streamInterval  });
@@ -298,18 +314,40 @@ class Video extends React.Component<any, any> {
 
   }
 
+  // get all video properties
+  getProperties() {
+    if (!this.video) {
+      return null;
+    }
+
+    return mediaProperties.reduce((properties: any, key: any) => {
+      properties[key] = this.video[key];
+      return properties;
+    }, {});
+  }
+
+  handleOnPlaying() {
+    this.setState({ isWaiting: false });
+    this.setState({ isPlaying: true });
+  }
+
+  handleOnWaiting() {
+    this.setState({ isWaiting: true });
+    this.setState({ isPlaying: false });
+  }
+
   render() {
 
     const { balance, isModernBrowser } = this.props;
-    console.log(this.props.userAgent, 'userAgent');
+    // console.log(this.props.userAgent, 'userAgent');
     if (!isModernBrowser || Number(balance) <= 0) {
       return (
         <NoVideo
-					balance={Number(balance)}
-					addBalanceText='AddBalance'
-					videoLegacyText='Video Legacy Text'
+          balance={Number(balance)}
+          addBalanceText="AddBalance"
+          videoLegacyText="Video Legacy Text"
           isModernBrowser={ isModernBrowser }
-        />
+      />
       );
     }
 
@@ -320,10 +358,21 @@ class Video extends React.Component<any, any> {
     }
 
     const hlsOptions = {
-      capLevelToPlayerSize: this.props.hasCapLevel
+      capLevelToPlayerSize: this.state.hasCapLevel
     };
+    // console.log(hlsOptions);
+    // console.log('hlsOptions');
 
     const { videoSrc } = this.props;
+
+    if (this.video) {
+      console.log(this.getProperties());
+      console.log(this.video);
+
+    }
+
+    const hasPreloader = true;
+    // const hasPreloader = !this.video || !this.state.isPlaying || this.state.isWaiting || this.video.readyState !== 4 || this.video.seeking || (this.state.hls && this.state.hls.currentLevel === - 1);
 
     return (
       <>
@@ -333,7 +382,7 @@ class Video extends React.Component<any, any> {
           onClick={() => this.mobileShowControls()}
           ref={c => { this.container = c; }}
           className="containerVideo container-16-9">
-          { (this.state.hasBigPlayButton && this.video) &&
+          { (this.state.hasBigPlayButton && this.video) &&
             <BigPlay handleBigPlay={this.handleBigPlay}/>
           }
           {
@@ -344,17 +393,24 @@ class Video extends React.Component<any, any> {
               handleClick={this.keepWatching}
             />
           }
+          {
+            hasPreloader &&
+              <Spinner />
+          }
            <video
             playsInline
-            
             src={videoSrc}
             id={'video-id'}
+            onPlaying={this.handleOnPlaying}
+            onWaiting={this.handleOnWaiting}
+            onStalled={ () => console.log('video stalled') }
             muted={this.state.isMuted}
             ref={c => { this.video = c; }}
             autoPlay={!this.props.userAgent['mobile']}
           >
           { this.video && videoSrc &&
               <HLSSource
+                user={this.props.user}
                 src={videoSrc}
                 video={this.video}
                 hlsOptions={hlsOptions}
@@ -366,7 +422,7 @@ class Video extends React.Component<any, any> {
               />
           }
           </video>
-          <div className={controllersContainerClass.join(' ')}>
+          <div className={controllersContainerClass.join(' ')} style={{zIndex: 2}}>
             {
               (this.video && !this.state.hasBigPlayButton) &&
               <Controls
