@@ -7,7 +7,7 @@ import HLSSource from './HLSSource';
 import VideoModal from './VideoModal';
 
 import { mediaProperties } from './helpers';
-import { lastInteraction } from './../../../actions/user';
+// import { lastInteraction } from './../../../actions/user';
 
 class Video extends React.Component<any, any> {
 
@@ -22,7 +22,6 @@ class Video extends React.Component<any, any> {
       hls: {},
       isWaiting: false,
       isPlaying: false,
-
       isMuted: false,
       setLevel: null,
       hasModal: false,
@@ -36,9 +35,6 @@ class Video extends React.Component<any, any> {
       idleStreamCountdown: null,
       showQualityController: false,
       mockInteractionInterval: null,
-
-      currentLevelInterval: 0,
-
       hideMobileControlsCounter: 5,
       hideMobileControlsInterval: null,
       idleStreamCounter: this.props.videoAfkPopUpEndSessionInterval / 1000
@@ -106,25 +102,6 @@ class Video extends React.Component<any, any> {
 
   updateHlsObject(hls_: any) {
     this.setState({ hls: hls_ });
-    console.log(hls_.currentLevel, 'currentLevel...');
-    console.log(this.state.currentLevelInterval, 'currentLevelInterval...');
-    if (hls_.currentLevel >= 0) {
-      this.setState({ currentLevelInterval: 0 });
-    }
-    if (hls_.currentLevel === -1 && this.state.currentLevelInterval === 0) {
-      console.log('start interval....');
-      this.setState({ currentLevelInterval: this.state.currentLevelInterval + 1 });
-    } else if (hls_.currentLevel === -1 && this.state.currentLevelInterval >= 1) {
-      this.setState({ currentLevelInterval: this.state.currentLevelInterval + 1 });
-      console.log('interval should be running...', this.state.currentLevelInterval);
-    }
-
-    if (this.state.currentLevelInterval >= 7) {
-      console.log('restart recovery process...');
-      this.startRecovery();
-      this.setState({ currentLevelInterval: 0 });
-
-    }
     // console.log(this.state.hls);
   }
 
@@ -257,7 +234,7 @@ class Video extends React.Component<any, any> {
     console.log('start mock interaction interval');
     let mockInteractionInterval = setInterval(() => {
       let time = Date.now();
-      that.props.dispatch(lastInteraction(time));
+      // that.props.dispatch(lastInteraction(time));
     }, 45000);
 
     this.setState({ mockInteractionInterval });
@@ -436,6 +413,7 @@ class Video extends React.Component<any, any> {
           >
           { this.video && videoSrc &&
               <HLSSource
+                startRecovery={this.startRecovery}
                 src={videoSrc}
                 video={this.video}
                 user={this.props.user}

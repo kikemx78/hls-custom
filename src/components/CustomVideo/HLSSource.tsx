@@ -40,6 +40,7 @@ class HLSSource extends React.Component<any, any> {
           if (this.hls.currentLevel !== - 1) {
             console.log('level has been set...');
             this.hls.currentLevel = bestLevelIdx;
+            setTimeout(() => this.props.startRecovery(), 1000);
           }
         }
 
@@ -118,6 +119,7 @@ class HLSSource extends React.Component<any, any> {
       if (this.hls.currentLevel !== - 1 && this.props.setLevel === null) {
         console.log('level has been set...');
         this.hls.currentLevel = bestLevelIdx;
+        setTimeout(() => this.props.startRecovery(), 1000);
       }
     }
     console.log('update');
