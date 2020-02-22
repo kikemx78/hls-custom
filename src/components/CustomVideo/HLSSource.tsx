@@ -1,7 +1,4 @@
 import * as React from 'react';
-import * as Hls_ from 'hls.js';
-
-let hls_: any = Hls_;
 const Hls: any = require('hls.js');
 
 class HLSSource extends React.Component<any, any> {
@@ -118,7 +115,7 @@ class HLSSource extends React.Component<any, any> {
     let bestLevelIdx = this.hls.levels.indexOf(bestLevel);
     console.log(bestLevelIdx, 'bestLevelIdx')
     if (this.hls.currentLevel !== bestLevelIdx) {
-      if (this.hls.currentLevel !== - 1) {
+      if (this.hls.currentLevel !== - 1 && this.props.setLevel === null) {
         console.log('level has been set...');
         this.hls.currentLevel = bestLevelIdx;
       }

@@ -9,6 +9,8 @@ import VideoModal from './VideoModal';
 
 import { mediaProperties } from './helpers';
 
+// import { lastInteraction } from './../../../actions/user';
+
 class Video extends React.Component<any, any> {
 
   public video: any = null;
@@ -51,7 +53,7 @@ class Video extends React.Component<any, any> {
 
     this.getProperties = this.getProperties.bind(this);
 
-    this.setLevel = this.setLevel.bind(this);
+    this.handleSetLevel = this.handleSetLevel.bind(this);
     this.playVideo = this.playVideo.bind(this);
     this.pauseVideo = this.pauseVideo.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
@@ -234,7 +236,7 @@ class Video extends React.Component<any, any> {
     this.setState({ showQualityController: !this.state.showQualityController });
   }
 
-  setLevel(index: any) {
+  handleSetLevel(index: any) {
     console.log('set to level index ', index);
     this.setState({ setLevel: index });
   }
@@ -389,12 +391,6 @@ class Video extends React.Component<any, any> {
       controllersContainerClass.push('active');
     }
 
-    const hlsOptions = {
-      capLevelToPlayerSize: this.state.hasCapLevel
-    };
-    // console.log(hlsOptions);
-    // console.log('hlsOptions');
-
     const { videoSrc } = this.props;
 
     if (this.video && this.state.hls) {
@@ -409,11 +405,12 @@ class Video extends React.Component<any, any> {
     return (
       <>
         <div
+          ref={c => { this.container = c; }}
+          onClick={() => this.mobileShowControls()}
+          className="containerVideo container-16-9"
           onMouseEnter={() => this.handleShowControls(true)}
           onMouseLeave={() => this.handleShowControls(false)}
-          onClick={() => this.mobileShowControls()}
-          ref={c => { this.container = c; }}
-          className="containerVideo container-16-9">
+        >
           { (this.state.hasBigPlayButton && this.video) &&
             <BigPlay handleBigPlay={this.handleBigPlay}/>
           }
@@ -421,8 +418,8 @@ class Video extends React.Component<any, any> {
             this.state.hasModal && this.video &&
             <VideoModal
               buttonText="Keep Watching"
-              modalText={`Are You Still Watching Our Stream?\nOtherwise Your Session Will Expire in ${this.state.idleStreamCounter} seconds.`}
               handleClick={this.keepWatching}
+              modalText={`Are You Still Watching Our Stream?\nOtherwise Your Session Will Expire in ${this.state.idleStreamCounter} seconds.`}
             />
           }
           {
@@ -433,19 +430,17 @@ class Video extends React.Component<any, any> {
             playsInline
             src={videoSrc}
             id={'video-id'}
-            onPlaying={this.handleOnPlaying}
-            onWaiting={this.handleOnWaiting}
-            onStalled={ () => console.log('video stalled') }
             muted={this.state.isMuted}
             ref={c => { this.video = c; }}
+            onPlaying={this.handleOnPlaying}
+            onWaiting={this.handleOnWaiting}
             autoPlay={!this.props.userAgent['mobile']}
           >
           { this.video && videoSrc &&
               <HLSSource
-                user={this.props.user}
                 src={videoSrc}
                 video={this.video}
-                hlsOptions={hlsOptions}
+                user={this.props.user}
                 playVideo={this.playVideo}
                 setLevel={this.state.setLevel}
                 userAgent={this.props.userAgent}
@@ -458,11 +453,12 @@ class Video extends React.Component<any, any> {
             {
               (this.video && !this.state.hasBigPlayButton) &&
               <Controls
-                setLevel={this.setLevel}
                 handlePlay={this.playVideo}
                 isMuted={this.state.isMuted}
                 handlePause={this.pauseVideo}
+                setLevel={this.state.setLevel}
                 handleToggleMute={this.toggleMute}
+                handleSetLevel={this.handleSetLevel}
                 handleFullScreen={this.goFullScreen}
                 currentTime={this.video.currentTime}
                 isFullScreen={this.state.isFullScreen}

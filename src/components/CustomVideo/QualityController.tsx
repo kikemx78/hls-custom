@@ -16,10 +16,11 @@ class QualityController extends React.Component<any, any> {
   render() {
 
     const {
-        levels,
-        setLevel,
-        currentLevel,
-        toggleQualityController
+      levels,
+      setLevel,
+      currentLevel,
+      handleSetLevel,  
+      toggleQualityController
     } = this.props;
 
     return(
@@ -34,13 +35,27 @@ class QualityController extends React.Component<any, any> {
                     Video Quality <span onClick={() => toggleQualityController()}>[x]</span>
                   </div>
                   <div className="quality-controller-content-box-border"></div>
+                  
+                  <div className="quality-controller-content-box-item-container" onClick={() => handleSetLevel(null)}>
+                    <div className="quality-controller-content-box-item">
+                      <div className="quality-controller-content-box-item-inner">
+                        <div className="quality-controller-content-box-item-inner-option">
+                          <input type="radio" checked={setLevel === null} onChange={() => ''}/>
+                          <label className="quality-controller-content-box-item-inner-label">
+                            <div>AUTO</div>
+                          </label>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
 
                   {/* item container */}
                   {
 
                     levels &&
                     levels.map((level: any, i: any) =>
-                      <div key={i} className="quality-controller-content-box-item-container" onClick={() => setLevel(i)}>
+                      <div key={i} className="quality-controller-content-box-item-container" onClick={() =>  handleSetLevel(i)}>
                         <div className="quality-controller-content-box-item">
                           <div className="quality-controller-content-box-item-inner">
                             <div className="quality-controller-content-box-item-inner-option">

@@ -95,6 +95,7 @@ class Controls extends React.Component<any, any> {
                       levels={this.props.levels}
                       setLevel={this.props.setLevel}
                       currentLevel={this.props.currentLevel}
+                      handleSetLevel={this.props.handleSetLevel}
                       toggleQualityController={this.props.toggleQualityController}
                     />
                 }
