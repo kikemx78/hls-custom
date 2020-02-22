@@ -19,7 +19,7 @@ class QualityController extends React.Component<any, any> {
       levels,
       setLevel,
       currentLevel,
-      handleSetLevel,  
+      handleSetLevel,
       toggleQualityController
     } = this.props;
 
@@ -35,7 +35,6 @@ class QualityController extends React.Component<any, any> {
                     Video Quality <span onClick={() => toggleQualityController()}>[x]</span>
                   </div>
                   <div className="quality-controller-content-box-border"></div>
-                  
                   <div className="quality-controller-content-box-item-container" onClick={() => handleSetLevel(null)}>
                     <div className="quality-controller-content-box-item">
                       <div className="quality-controller-content-box-item-inner">

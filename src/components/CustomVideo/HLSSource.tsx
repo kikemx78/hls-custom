@@ -113,7 +113,7 @@ class HLSSource extends React.Component<any, any> {
     let indexOfMaxValue = bestLevels.indexOf(Math.max(...bestLevels));
     let bestLevel = this.hls.levels.filter((level: any) => level.width === bestLevels[indexOfMaxValue])[0];
     let bestLevelIdx = this.hls.levels.indexOf(bestLevel);
-    console.log(bestLevelIdx, 'bestLevelIdx')
+    console.log(bestLevelIdx, 'bestLevelIdx');
     if (this.hls.currentLevel !== bestLevelIdx) {
       if (this.hls.currentLevel !== - 1 && this.props.setLevel === null) {
         console.log('level has been set...');

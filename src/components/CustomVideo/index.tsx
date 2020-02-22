@@ -6,10 +6,8 @@ import Controls from './Controls';
 import HLSSource from './HLSSource';
 import VideoModal from './VideoModal';
 
-
 import { mediaProperties } from './helpers';
-
-// import { lastInteraction } from './../../../actions/user';
+import { lastInteraction } from './../../../actions/user';
 
 class Video extends React.Component<any, any> {
 
@@ -259,7 +257,7 @@ class Video extends React.Component<any, any> {
     console.log('start mock interaction interval');
     let mockInteractionInterval = setInterval(() => {
       let time = Date.now();
-      // that.props.dispatch(lastInteraction(time));
+      that.props.dispatch(lastInteraction(time));
     }, 45000);
 
     this.setState({ mockInteractionInterval });
