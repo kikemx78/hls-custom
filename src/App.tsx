@@ -124,6 +124,17 @@ class App extends React.Component<any, any> {
             videoAfkPopUpInterval={config.videoAfkPopUpInterval}
             videoAfkPopUpEndSessionInterval={config.videoAfkPopUpEndSessionInterval}
           />
+        //   <Video
+        //    user={this.props.user}
+        //    balance={this.props.balance}
+        //    dispatch={this.props.dispatch}
+        //    videoSrc={this.state.videoUrl}
+        //    userAgent={this.props.userAgent}
+        //    isModernBrowser={this.props.isModernBrowser}
+        //    onIdleCounterFinished={this.killSessionOnIdle}
+        //    videoAfkPopUpInterval={config.videoAfkPopUpInterval}
+        //    videoAfkPopUpEndSessionInterval={config.videoAfkPopUpEndSessionInterval}
+        //  />
         }
       </div>
     );
