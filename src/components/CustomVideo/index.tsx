@@ -7,7 +7,7 @@ import HLSSource from './HLSSource';
 import VideoModal from './VideoModal';
 
 import { mediaProperties } from './helpers';
-// import { lastInteraction } from './../../../actions/user';
+import { lastInteraction } from './../../../actions/user';
 
 class Video extends React.Component<any, any> {
 
@@ -22,6 +22,7 @@ class Video extends React.Component<any, any> {
       hls: {},
       isWaiting: false,
       isPlaying: false,
+
       isMuted: false,
       setLevel: null,
       hasModal: false,
@@ -234,7 +235,7 @@ class Video extends React.Component<any, any> {
     console.log('start mock interaction interval');
     let mockInteractionInterval = setInterval(() => {
       let time = Date.now();
-      // that.props.dispatch(lastInteraction(time));
+      that.props.dispatch(lastInteraction(time));
     }, 45000);
 
     this.setState({ mockInteractionInterval });
@@ -413,13 +414,13 @@ class Video extends React.Component<any, any> {
           >
           { this.video && videoSrc &&
               <HLSSource
-                startRecovery={this.startRecovery}
                 src={videoSrc}
                 video={this.video}
                 user={this.props.user}
                 playVideo={this.playVideo}
                 setLevel={this.state.setLevel}
                 userAgent={this.props.userAgent}
+                startRecovery={this.startRecovery}
                 updateHlsObject={this.updateHlsObject}
                 capLevelToPlayerSize={this.state.hasCapLevel}
               />
