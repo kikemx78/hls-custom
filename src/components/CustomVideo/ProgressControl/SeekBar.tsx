@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Slider from './Slider';
+import LoadProgressBar from './LoadProgressBar';
 import PlayProgressBar from './PlayProgressBar';
 import MouseTimeDisplay from './MouseTimeDisplay';
 import { formatTime } from './../helpers';
@@ -7,7 +8,7 @@ import { formatTime } from './../helpers';
 class SeekBar extends React.Component<any, any> {
 
   public slider: any = null;
-  
+
   constructor(props: any) {
     super(props);
 
@@ -98,6 +99,11 @@ class SeekBar extends React.Component<any, any> {
           stepForward={this.stepForward}
           stepBack={this.stepBack}
         >
+          <LoadProgressBar
+            buffered={buffered}
+            currentTime={time}
+            duration={duration}
+          />
           <MouseTimeDisplay duration={duration} mouseTime={mouseTime} />
           <PlayProgressBar currentTime={time} duration={duration} />
        </Slider>

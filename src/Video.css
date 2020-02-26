@@ -93,17 +93,106 @@
   background-color: #212121;
   color: #212121;
   flex-basis: 0;
-  flex-grow: 1;
+  flex-grow: 0.25;
   justify-content: flex-start;
   align-items: center;
   display: flex;
  }
 
- .player-controls-right {
+.player-controls-center {
+  background-color: #212121;
+  color: #fff;
+  flex-basis: 0;
+  flex-grow: 0.5;
+  align-items: center;
+  display: flex;
+ }
+
+.progress-control::before {
+  text-align: center;
+}
+
+.progress-control {
+  width: 100%;
+}
+
+.load-progress {
+  position: absolute;
+  display: block;
+  height: 0.3em;
+  margin: 0;
+  padding: 0;
+  width: 0;
+  left: 0;
+  top: 0;
+  background: rgba(115, 133, 159, 0.5);
+}
+
+.load-progress div {
+  position: absolute;
+  display: block;
+  height: 0.3em;
+  margin: 0;
+  padding: 0;
+  width: 0;
+  left: 0;
+  top: 0;
+}
+
+.play-progress-bar::after {
+  
+  pointer-events: none;
+  position: absolute;
+  top: -3.4em;
+  right: -1.9em;
+  font-size: 0.9em;
+  color:#000;
+  content: attr(data-current-time);
+  padding: 6px 8px 8px 8px;
+  background-color: #fff;
+  background-color:rgba(255, 255, 255, 0.8);
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  border-radius: 0.3em;
+  z-index: 1;
+}
+
+.play-progress-bar::before {
+  position: absolute;
+  top: -0.333333333333333em;
+  right: -0.5em;
+  font-size: 0.9em;
+  content: "";
+}
+
+.control-text {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.video-react-slider {
+  flex: auto;
+  transition: all 0.2s;
+  height: 0.3em;
+  outline: 0;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0.45em 0 0.45em;
+  background-color:rgba(115, 133, 159, 0.5);
+}
+
+.player-controls-right {
   background-color: #212121;
   position: relative;
   flex-basis: 0;
-  flex-grow: 1;
+  flex-grow: 0.25;
   justify-content: flex-end;
   align-items: center;
   display: flex;
