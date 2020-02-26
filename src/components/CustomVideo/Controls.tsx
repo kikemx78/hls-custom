@@ -8,6 +8,7 @@ import {
   exitFullScreen,
   goFullScreen } from './Base64Icons';
 import QualityController from './QualityController';
+import ProgressControl from './ProgressControl';
 
 class Controls extends React.Component<any, any> {
 
@@ -83,6 +84,9 @@ class Controls extends React.Component<any, any> {
               <div className="duration" style={{color: 'white', padding: '8px', fontSize: '13px', fontWeight: 'bold', fontFamily: 'Roboto'}}>{this.videoCurrentTime(this.props.currentTime)}</div>
             </div>
           </div>
+          <ProgressControl 
+            video={this.props.video}
+          />
           <div className="player-controls-right">
 
             {

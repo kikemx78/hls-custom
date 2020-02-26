@@ -7,7 +7,7 @@ import HLSSource from './HLSSource';
 import VideoModal from './VideoModal';
 
 import { mediaProperties } from './helpers';
-import { lastInteraction } from './../../../actions/user';
+// import { lastInteraction } from './../../../actions/user';
 
 class Video extends React.Component<any, any> {
 
@@ -172,11 +172,10 @@ class Video extends React.Component<any, any> {
 
   closeFullscreen() {
 
-    if (!this.video) return;
+    let document_: any = document;
+    if (!this.video || !document_) return;
 
     this.setState({ isFullScreen: false });
-
-    let document_: any = document;
 
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -235,7 +234,7 @@ class Video extends React.Component<any, any> {
     console.log('start mock interaction interval');
     let mockInteractionInterval = setInterval(() => {
       let time = Date.now();
-      that.props.dispatch(lastInteraction(time));
+      // that.props.dispatch(lastInteraction(time));
     }, 45000);
 
     this.setState({ mockInteractionInterval });
@@ -369,10 +368,14 @@ class Video extends React.Component<any, any> {
 
     const { videoSrc } = this.props;
 
-    if (this.video && this.state.hls) {
-      // console.log(this.getProperties());
-      // console.log(this.video);
-      // pconsole.log(this.state.hls.currentLevel, 'currentLevel');
+    const containerClass = ['containerVideo container-16-9'];
+
+    if (this.container && this.container.offsetWidth <= 300) {
+      containerClass.push('sm-container');
+    }
+
+    if (this.container && this.container.offsetWidth > 1200) {
+      containerClass.push('lg-container');
     }
 
     // const hasPreloader = true;
@@ -383,9 +386,9 @@ class Video extends React.Component<any, any> {
         <div
           ref={c => { this.container = c; }}
           onClick={() => this.mobileShowControls()}
-          className="containerVideo container-16-9"
+          className={containerClass.join(' ')}
           onMouseEnter={() => this.handleShowControls(true)}
-          onMouseLeave={() => this.handleShowControls(false)}
+          onMouseLeave={() => this.handleShowControls(true)}
         >
           { (this.state.hasBigPlayButton && this.video) &&
             <BigPlay handleBigPlay={this.handleBigPlay}/>
@@ -430,6 +433,7 @@ class Video extends React.Component<any, any> {
             {
               (this.video && !this.state.hasBigPlayButton) &&
               <Controls
+                video={this.video}
                 handlePlay={this.playVideo}
                 isMuted={this.state.isMuted}
                 handlePause={this.pauseVideo}
