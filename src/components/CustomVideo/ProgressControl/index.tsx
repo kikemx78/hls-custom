@@ -28,14 +28,12 @@ class ProgressControl extends React.Component<any, any> {
       video: { duration }
     } = this.props;
     const node = this.seekBar;
-    console.log(node);
     const newTime = Dom.getPointerPosition(node, event).x * duration;
     const position = event.pageX - Dom.findElPosition(node).left;
-    console.log(Dom.getPointerPosition(node, event));
+
     this.setState({
       mouseTime: {
         time: newTime,
-        duration,
         position
       }
     });
@@ -43,7 +41,7 @@ class ProgressControl extends React.Component<any, any> {
 
   render() {
     const { className } = this.props;
-    console.log(this.state.mouseTime);
+    // console.log(this.state.mouseTime);
     return (
       <div
         onMouseMove={this.handleMouseMoveThrottle}

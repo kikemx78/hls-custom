@@ -23,6 +23,7 @@ class SeekBar extends React.Component<any, any> {
 
   }
 
+
   handleMouseDown() {
 
   }
@@ -38,10 +39,10 @@ class SeekBar extends React.Component<any, any> {
     const {
       video: { duration }
     } = this.props;
-    const distance = 0;
-    // const distance = this.slider.calculateDistance(event);
+    
+    const distance = this.slider.calculateDistance(event);
     const newTime = distance * duration;
-
+    
     // Don't let video end while scrubbing.
     return newTime === duration ? newTime - 0.1 : newTime;
   }
@@ -49,29 +50,29 @@ class SeekBar extends React.Component<any, any> {
   handleMouseUp(event: any) {
   
     const newTime = this.getNewTime(event);
-    console.log(newTime);
-    // Set new time (tell video to seek to new time)
-    // actions.seek(newTime);
-    // actions.handleEndSeeking(newTime);
+    // this.props.video.currentTime = newTime;
+    // this.props.video.seek(newTime);
+    // this.props.video.seekingTime = 0;
+   
   }
 
   handleMouseMove(event: any) {
  
     const newTime = this.getNewTime(event);
-    console.log(newTime);
+    this.props.video.currentTime = newTime;
+    // console.log('handleMouseMove');
+    // console.log(newTime);
+    // this.props.video.seekingTime = newTime;
  
   }
 
   stepForward() {
     console.log('stepForward')
-    // const { actions } = this.props;
-    // actions.forward(5);
   }
 
   stepBack() {
     console.log('stepBack');
-    // const { actions } = this.props;
-    // actions.replay(5);
+
   }
 
   render() {

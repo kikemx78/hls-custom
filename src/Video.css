@@ -139,8 +139,20 @@
   top: 0;
 }
 
+.play-progress-bar {
+  position: absolute;
+  display: block;
+  height: 0.3em;
+  margin: 0;
+  padding: 0;
+  width: 0;
+  left: 0;
+  top: 0;
+  background-color: #fff;
+}
+
 .play-progress-bar::after {
-  
+  visibility: hidden;
   pointer-events: none;
   position: absolute;
   top: -3.4em;
@@ -159,10 +171,16 @@
 
 .play-progress-bar::before {
   position: absolute;
-  top: -0.333333333333333em;
-  right: -0.5em;
-  font-size: 0.9em;
-  content: "";
+  right: -1px;
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  top: -4px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #fff;
 }
 
 .control-text {

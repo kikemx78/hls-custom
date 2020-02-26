@@ -49,17 +49,17 @@ export function findElPosition(el: any) {
  * @return {Object} This object will have x and y coordinates corresponding to the mouse position
  */
 export function getPointerPosition(el: any, event: any) {
-  console.log('ek');
-  console.log(el);
-  console.log(event);
+  // console.log('ek');
+  // console.log(el);
+  // console.log(event);
   const position: any = {};
   const box = findElPosition(el);
   const boxW = el.offsetWidth;
   const boxH = el.offsetHeight;
 
-  console.log(box);
-  console.log(boxW);
-  console.log(boxH);
+  // console.log(box);
+  // console.log(boxW);
+  // console.log(boxH);
 
   const boxY = box.top;
   const boxX = box.left;
@@ -71,12 +71,12 @@ export function getPointerPosition(el: any, event: any) {
     evtPageY = event.changedTouches[0].pageY;
   }
 
-  console.log(evtPageX);
-  console.log(evtPageY);
+  // console.log(evtPageX);
+  // console.log(evtPageY);
 
   position.y = Math.max(0, Math.min(1, (boxY - evtPageY + boxH) / boxH));
   position.x = Math.max(0, Math.min(1, (evtPageX - boxX) / boxW));
-  console.log(position);
+  // console.log(position);
   return position;
 }
 
